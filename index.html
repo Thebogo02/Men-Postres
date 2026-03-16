@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Propuesta Especial</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f1dec3;
+            overflow: hidden;
+            padding: 30px;
+            text-align: center;
+            color: #40807e; 
+        }
+
+        .pantalla {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .activa {
+            display: flex;
+        }
+
+        h1, p {
+            color: #40807e; 
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background-color: #40807e; 
+            color: #f1dec3;
+        }
+
+        #btn-no { 
+            position: fixed; 
+            z-index: 999999 !important; 
+            background-color: #808080;
+            color: white;
+            display: none; 
+            left: 50%;
+            top: 65%;
+            transform: translateX(-50%);
+        }
+
+        #btn-si { 
+            z-index: 100; 
+            position: relative; 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #ff4d6d; 
+            color: white;
+        }
+
+        #btn-formulario {
+            display: none; 
+            margin-top: 20px;
+            animation: fadeIn 1s ease;
+            text-decoration: none;
+        }
+
+        .corazon-lluvia {
+            position: fixed;
+            top: -20px;
+            font-size: 30px;
+            animation: caer linear forwards;
+            z-index: 2000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes caer {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pantalla activa" id="p1">
+        <p>Querido usuario, si la página no carga, dale click en siguiente.</p>
+        <button onclick="siguiente(1)">Siguiente</button>
+    </div>
+
+    <div class="pantalla" id="p2">
+        <p>Jejeje... ya sé cómo joderte en tu celular, mona.</p>
+        <button onclick="siguiente(2)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="p3">
+        <p>Bueno, te diría que estoy locamente enamorado de ti (pero la verdad estoy enamorado de tu perro), que me emociona crecer contigo (solo quiero la ciudadanía en Panamá), que me encantaría dejar de ser tu no-novio... pero no.</p>
+        <button onclick="siguiente(3)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="p4">
+        <p>La realidad es que eres de las cosas más bonitas que me han pasado en mucho tiempo. No solo estoy enamorado de ti y de tu perro, sino de tu energía y de todo lo que te rodea.</p>
+        <button onclick="siguiente(4)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="p5">
+        <p>Me emociona crecer contigo en el lugar que sea. Sea Bogotá, Madrid, Italia... sea donde sea. Y crecer de todas las formas: personal, mental y laboralmente.</p>
+        <button onclick="siguiente(5)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="p6">
+        <p>Te amo, te admiro y agradezco que estemos hoy aquí celebrando esto.</p>
+        <button onclick="siguiente(6)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="p7">
+        <p>Es por eso que te quiero preguntar...</p>
+        <button onclick="siguiente(7)">Dale click</button>
+    </div>
+
+    <div class="pantalla" id="pFinal">
+        <h1 id="mensaje">¿Quieres ser mi novia? ❤️</h1>
+        <button id="btn-si">¡SÍ!</button>
+        
+        <a href="https://1drv.ms/w/c/72d73f0d9de98234/IQDBvlATAKfNRKRuK7-nHpnXASZPaJyuFYpsC3H3XojXIiw?e=C4dkCb" target="_blank" id="btn-formulario">
+            <button type="button">Dale click para ver el contrato</button>
+        </a>
+    </div>
+
+    <button id="btn-no">No</button>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const btnSi = document.getElementById('btn-si');
+        const mensaje = document.getElementById('mensaje');
+        const btnForm = document.getElementById('btn-formulario');
+        let escalaSi = 1;
+        let primeraVezNo = true;
+
+        function siguiente(num) {
+            document.getElementById('p' + num).classList.remove('activa');
+            if (num === 7) {
+                document.getElementById('pFinal').classList.add('activa');
+                btnNo.style.display = 'block'; 
+            } else {
+                document.getElementById('p' + (num + 1)).classList.add('activa');
+            }
+        }
+
+        function escapar(e) {
+            if (e) e.preventDefault();
+            if (primeraVezNo) {
+                mensaje.style.opacity = '0'; 
+                primeraVezNo = false;
+            }
+            const margin = 50;
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - (margin * 2)) + margin;
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - (margin * 2)) + margin;
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+            btnNo.style.transform = 'none';
+            escalaSi += 0.6;
+            btnSi.style.transform = `scale(${escalaSi})`;
+        }
+
+        btnNo.addEventListener('touchstart', escapar);
+        btnNo.addEventListener('mouseenter', escapar);
+
+        btnSi.addEventListener('click', () => {
+            mensaje.style.opacity = '1';
+            mensaje.innerHTML = "Era obvio que sí, nadie puede resistirse a semejantes piernas sexys";
+            btnNo.style.display = 'none';
+            btnSi.style.display = 'none';
+            lluvia();
+            
+            setTimeout(() => {
+                // Esto muestra el enlace al contrato después de 3 segundos
+                btnForm.style.display = 'inline-block';
+            }, 3000);
+        });
+
+        function lluvia() {
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.classList.add('corazon-lluvia');
+                    c.innerHTML = '❤️';
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(c);
+                }, i * 120);
+            }
+        }
+    </script>
+</body>
+</html>
